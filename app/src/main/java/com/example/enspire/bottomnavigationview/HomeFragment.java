@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.enspire.bottomnavigationview.model.OrgModel;
 import com.example.enspire.bottomnavigationview.model.Organization;
 import com.example.enspire.bottomnavigationview.service.APIService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,9 +40,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    //instantiate recycler view
+    RecyclerView recyclerView;
+    OrgCardAdapter adapter;
+    List<OrgModel> orgList;
     TextView test;
     Button button2;
 
@@ -86,23 +95,41 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        test=(TextView)rootView.findViewById(R.id.testb);
-        test.setText("dsa");
-        button2=(Button)rootView.findViewById(R.id.button2);
+        //test=(TextView)rootView.findViewById(R.id.testb);
+//        test.setText("dsa");
+//        button2=(Button)rootView.findViewById(R.id.button2);
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uid="22";
-               /* Toast.makeText(context,"Notification Fragment",Toast.LENGTH_LONG).show();*/
-//                test.setText("What the fuck");
-                getOrganization();
+//        button2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                uid="22";
+//               /* Toast.makeText(context,"Notification Fragment",Toast.LENGTH_LONG).show();*/
+////                test.setText("What the fuck");
+////                getOrganization();
+//
+//            }
+//        });
+        orgList=new ArrayList<>();
 
-            }
-        });
-        // Inflate the layout for this fragment
+        recyclerView= (RecyclerView) rootView.findViewById(R.id.orglist);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        orgList.add(
+                new OrgModel("Ashmita","Subedi")
+        );
+        orgList.add(
+                new OrgModel("Ronit","pradhan")
+        );
+        orgList.add(
+                new OrgModel("Abhusan","gautam")
+        );
+    adapter=new OrgCardAdapter(getContext(),orgList);
+    recyclerView.setAdapter(adapter);
+
         return rootView;
 
     }
@@ -157,7 +184,7 @@ public class HomeFragment extends Fragment {
         //Calling API
         APIService service=retrofit.create(APIService.class);
         Call<List<Organization>> call=service.getOrganization(uid);
-        test.setText("asdasdasd");
+//        test.setText("asdasdasd");
 
       /*  call.enqueue(new Callback<List<Organization>>() {
             @Override
@@ -186,18 +213,18 @@ public class HomeFragment extends Fragment {
 
             }
         }*/
-                call.enqueue(new Callback<List<Organization>>() {
-                    @Override
-                    public void onResponse(Call<List<Organization>> call, Response<List<Organization>> response) {
-                        Toast.makeText(getContext(),"Success",Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Organization>> call, Throwable t) {
-                        Toast.makeText(getContext(),"failure",Toast.LENGTH_LONG).show();
-                        Log.d(t.toString(), "onFailure: ");
-                    }
-                });
+//                call.enqueue(new Callback<List<Organization>>() {
+//                    @Override
+//                    public void onResponse(Call<List<Organization>> call, Response<List<Organization>> response) {
+//                        Toast.makeText(getContext(),"Success",Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<List<Organization>> call, Throwable t) {
+//                        Toast.makeText(getContext(),"failure",Toast.LENGTH_LONG).show();
+//                        Log.d(t.toString(), "onFailure: ");
+//                    }
+//                });
                 /*);*/
 
 

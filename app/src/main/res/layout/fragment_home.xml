@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <!--<Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,12 @@
             android:layout_marginTop="147dp"
             android:text="Test"
             android:textAlignment="center"
-            android:textSize="25sp" />
+            android:textSize="25sp" />-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orglist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
 </FrameLayout>
