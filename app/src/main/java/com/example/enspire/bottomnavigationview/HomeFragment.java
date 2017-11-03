@@ -19,6 +19,7 @@ import com.example.enspire.bottomnavigationview.model.OrgModel;
 import com.example.enspire.bottomnavigationview.model.Organization;
 import com.example.enspire.bottomnavigationview.service.APIService;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +51,10 @@ public class HomeFragment extends Fragment {
     List<OrgModel> orgList;
     TextView test;
     Button button2;
+    ArrayList<String> al=new ArrayList(3);
+    ArrayList<String> al2=new ArrayList(3);
 
-    String uid;
+    String uid="22";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -90,45 +93,125 @@ public class HomeFragment extends Fragment {
 
 
 
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        //Build Api
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+//Calling API
+        APIService service=retrofit.create(APIService.class);
+        Call<List<Organization>> call=service.getOrganization(uid);
+        test=(TextView)rootView.findViewById(R.id.testb);
+        /*test.setText("dsa");
+        button2=(Button)rootView.findViewById(R.id.button2);*/
 
-        //test=(TextView)rootView.findViewById(R.id.testb);
-//        test.setText("dsa");
-//        button2=(Button)rootView.findViewById(R.id.button2);
+       /* button2.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View view) {
+               *//*uid="22";
+               Toast.makeText(context,"Notification Fragment",Toast.LENGTH_LONG).show();
+               test.setText("What the fuck");*//*
+                                               getOrganization();
 
-//        button2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                uid="22";
-//               /* Toast.makeText(context,"Notification Fragment",Toast.LENGTH_LONG).show();*/
-////                test.setText("What the fuck");
-////                getOrganization();
-//
-//            }
-//        });
-        orgList=new ArrayList<>();
+                                           }
+        });*/
+//Api callback
+        call.enqueue(new Callback<List<Organization>>() {
+            @Override
+            public void onResponse(Call<List<Organization>> call, Response<List<Organization>> response) {
+                List<Organization> organizations=response.body();
+                Toast.makeText(getContext(),"Success",Toast.LENGTH_LONG).show();
+
+String name="ool";
+String uid;
+                Log.d("Size1",al.toString());
+
+                for(int i=0;i<organizations.size();i++)
+                {
+                    name= organizations.get(i).getName();
+                    uid=organizations.get(i).getUid();
+                          al.add(name);
+                          al2.add(uid);
+                          Log.d("name",name);
+                    Log.d("uid",uid);
+                }
+                Log.d("IAl",al.toString());
+                Log.d("IAl2",al.get(1).toString());
+                Log.d("Size2",al.toString());
+
+                test.setText(name);
+                orgList=new ArrayList<>();
+
+                recyclerView= (RecyclerView) rootView.findViewById(R.id.orglist);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                for(int j=0;j<1;j++)
+                {
+
+                    String temp=al.get(j).toString();
+                    String temp2=al2.get(j).toString();
+                    Log.d("Aname",temp);
+                    Log.d("Auid",temp2);
+                    orgList.add(
+                            new OrgModel("sdf","sdf")
+                    );
+                    orgList.add(
+                            new OrgModel(al.get(j).toString(),al.get(j).toString())
+                    );
+                }
+
+                adapter=new OrgCardAdapter(getContext(),orgList);
+                recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Organization>> call, Throwable t) {
+                Toast.makeText(getContext(),"failure",Toast.LENGTH_LONG).show();
+                Log.d(t.toString(), "onFailure: ");
+            }
+        });
+
+
+       /* orgList=new ArrayList<>();
 
         recyclerView= (RecyclerView) rootView.findViewById(R.id.orglist);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        orgList.add(
-                new OrgModel("Ashmita","Subedi")
-        );
-        orgList.add(
-                new OrgModel("Ronit","pradhan")
-        );
-        orgList.add(
-                new OrgModel("Abhusan","gautam")
-        );
-    adapter=new OrgCardAdapter(getContext(),orgList);
-    recyclerView.setAdapter(adapter);
+        Log.d("Size4",al.toString());*/
+/*String [] alArray=al.toArray(new String[al.size()]);
+String [] al2Array=al2.toArray(new String[al.size()]);*/
+
+
+/*Log.d("Full al",al.toString());
+        Log.d("Full al2",al2.toString());*/
+        /*getOrganization();*/
+       /* Log.d("Size",al.toString());*/
+      /*  for(int j=0;j<1;j++)
+        {
+
+            String temp=al.get(j).toString();
+            String temp2=al2.get(j).toString();
+            Log.d("Aname",temp);
+            Log.d("Auid",temp2);
+            orgList.add(
+                    new OrgModel("sdf","sdf")
+            );
+            orgList.add(
+                    new OrgModel(al.get(j).toString(),al.get(j).toString())
+            );
+        }*/
+  /*  adapter=new OrgCardAdapter(getContext(),orgList);
+    recyclerView.setAdapter(adapter);*/
 
         return rootView;
 
@@ -173,9 +256,13 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void getOrganization(){
+/*    public void getOrganization(){
 
-//test.setText("asd");
+
+     *//*  final  ArrayList al=new ArrayList();
+       final ArrayList al2=new ArrayList();*//*
+
+*//*test.setText("asd");*//*
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -184,15 +271,17 @@ public class HomeFragment extends Fragment {
         //Calling API
         APIService service=retrofit.create(APIService.class);
         Call<List<Organization>> call=service.getOrganization(uid);
-//        test.setText("asdasdasd");
+//API call back
 
-      /*  call.enqueue(new Callback<List<Organization>>() {
+       *//* test.setText("asdasdasd");
+
+        call.enqueue(new Callback<List<Organization>>() {
             @Override
             public void onResponse(Call<List<Organization>> call, Response<List<Organization>> response) {
                 List<Organization> organizations = response.body();
                 test.setText("asdasdasd");
 
-                *//*String details = "";
+                String details = "";
                 int temp = organizations.size();
                 for (int i = 0; i < organizations.size(); i++) {
                     String name = organizations.get(i).getName();
@@ -200,10 +289,10 @@ public class HomeFragment extends Fragment {
                     details += "Name: " + name + '\n';
                 }
                 test.setText(details);
-                *//**//*String finalLatitude = locations.get(temp - 1).getLatitude();
+                String finalLatitude = locations.get(temp - 1).getLatitude();
                 String finalLongitude = locations.get(temp - 1).getLongitude();
                 setText.setText(finalLatitude);
-                setText2.setText(finalLongitude);*//*
+                setText2.setText(finalLongitude);
 
         }
 
@@ -212,21 +301,41 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(),"Error",Toast.LENGTH_LONG).show();
 
             }
-        }*/
-//                call.enqueue(new Callback<List<Organization>>() {
-//                    @Override
-//                    public void onResponse(Call<List<Organization>> call, Response<List<Organization>> response) {
-//                        Toast.makeText(getContext(),"Success",Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<List<Organization>> call, Throwable t) {
-//                        Toast.makeText(getContext(),"failure",Toast.LENGTH_LONG).show();
-//                        Log.d(t.toString(), "onFailure: ");
-//                    }
-//                });
-                /*);*/
+        }*//*
+                call.enqueue(new Callback<List<Organization>>() {
+                  @Override
+                   public void onResponse(Call<List<Organization>> call, Response<List<Organization>> response) {
+                      List<Organization> organizations=response.body();
+                      Toast.makeText(getContext(),"Success",Toast.LENGTH_LONG).show();
+
+                      for(int i=0;i<organizations.size();i++)
+                      {
+                          String name= organizations.get(i).getName();
+                          String uid=organizations.get(i).getUid();
+                          *//*al.add(name);
+                          al2.add(uid);*//*
+                          orgList.add(
+                                  new OrgModel("Ashmita","Subedi")
+                          );
+                          orgList.add(
+                                  new OrgModel("Ronit","pradhan")
+                          );
+                          orgList.add(
+                                  new OrgModel("Abhusan","gautam")
+                          );
+                          orgList.add(new OrgModel(name,uid));
+                      }
+
+                  }
+
+                    @Override
+                    public void onFailure(Call<List<Organization>> call, Throwable t) {
+                        Toast.makeText(getContext(),"failure",Toast.LENGTH_LONG).show();
+                        Log.d(t.toString(), "onFailure: ");
+                   }
+                });
 
 
-    }
+
+    }*/
 }

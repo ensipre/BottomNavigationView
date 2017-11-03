@@ -17,8 +17,8 @@ public class Organization {
     @SerializedName("name")
     private String name;
 
-    @SerializedName("address")
-    private String address;
+    @SerializedName("uid")
+    private String uid;
 
     @SerializedName("phone")
     private Integer phone;
@@ -53,8 +53,8 @@ public class Organization {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getUid() {
+        return uid;
     }
 
     public Integer getPhone() {
@@ -98,7 +98,7 @@ public class Organization {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.uid = uid;
     }
 
     public void setPhone(Integer phone) {
