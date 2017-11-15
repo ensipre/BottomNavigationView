@@ -9,7 +9,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+<include
+    layout="@layout/toolbar_layout"
+    android:id="@+id/toolbar"/>
         <!--   <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
@@ -19,22 +21,12 @@
             android:layout_marginTop="88dp"
             android:text="Button" />-->
 
-        <TextView
-            android:id="@+id/testb"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/orglist"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="87dp"
-            android:text="Test"
-            android:textAlignment="center"
-            android:textSize="25sp" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/orglist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/toolbar"></android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
 </FrameLayout>
